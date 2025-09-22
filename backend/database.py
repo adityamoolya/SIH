@@ -5,7 +5,7 @@ import logging
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
-
+import traceback
 load_dotenv()
 
 logger = logging.getLogger(__name__)
@@ -29,7 +29,9 @@ async def get_db():
         try:
             yield session
         except Exception as e:
-            logger.error(f"Database session error: {e}")
+            # --- REPLACE THIS LINE ---
+            logger.error(f"Database session error: {e}\n{traceback.format_exc()}")
+            # -------------------------
             await session.rollback()
             raise
         finally:

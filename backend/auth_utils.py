@@ -12,23 +12,33 @@ import crud, schemas
 from password_utils import verify_password
 
 SECRET_KEY = os.getenv("SECRET_KEY", "a_very_secret_key_for_local_dev")
-# --- THIS IS THE FIX ---
-ALGORITHM = "HS256" # Corrected from "HS26"
-# ---------------------
+ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# The tokenUrl must match the full path to your login endpoint
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
 async def authenticate_user(db: AsyncSession, email: str, password: str):
+    """
+    Authenticates a user by checking their email and password.
+    """
     user = await crud.get_user_by_email(db, email=email)
+    
+    # If no user is found with that email, authentication fails.
     if not user:
         return None
+    
+    # Verify the provided password against the hashed password in the database.
+    # This is the critical step that was failing.
     if not verify_password(password, user.password_hash):
         return None
+        
+    # If both checks pass, return the user object.
     return user
 
 def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
+    """
+    Creates a new JWT access token.
+    """
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -42,6 +52,9 @@ async def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: AsyncSession = Depends(get_db)
 ) -> schemas.User:
+    """
+    Decodes a JWT from the request and retrieves the current user.
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

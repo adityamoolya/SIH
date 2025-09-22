@@ -19,11 +19,18 @@ async def register_user(user: schemas.UserCreate, db: AsyncSession = Depends(get
         raise HTTPException(status_code=400, detail="Email already registered")
     return await crud.create_user(db=db, user=user)
 
+# --- MODIFIED FUNCTION WITH DEBUGGING PRINT ---
 @router.post("/login", response_model=schemas.Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: AsyncSession = Depends(get_db)
 ):
+    # This will print the exact username and password received from the form
+    print("--- LOGIN ATTEMPT (from browser) ---")
+    print(f"DEBUG: Received username: '{form_data.username}'")
+    print(f"DEBUG: Received password: '{form_data.password}'")
+    print("------------------------------------")
+
     user = await authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
