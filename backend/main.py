@@ -19,13 +19,13 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     lifespan=lifespan,
-    title="Waste Management API",
-    version="1.0.0"
+    title="Waste Management  API",
+    version="idk first?"
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],            #CORS issue was solved here
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
