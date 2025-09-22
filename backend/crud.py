@@ -3,8 +3,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import func
-
-# Corrected: Imports from the new file, not auth_utils
 import models, schemas
 from password_utils import get_password_hash
 

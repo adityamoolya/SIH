@@ -28,9 +28,8 @@ class User(Base):
     phone = Column(String, unique=True, index=True)
     address = Column(String)
     role = Column(Enum(UserRole))
-    password_hash = Column(String) # Renamed from hashed_password
+    password_hash = Column(String)
 
-    # Relationships
     devices = relationship("Device", back_populates="owner")
     waste_logs = relationship("WasteLog", back_populates="owner")
     rewards = relationship("Reward", back_populates="owner")

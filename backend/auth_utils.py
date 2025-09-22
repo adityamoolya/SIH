@@ -7,15 +7,17 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# Corrected: Imports from the new files
 from database import get_db
 import crud, schemas
-from password_utils import verify_password # Import from new file
+from password_utils import verify_password
 
 SECRET_KEY = os.getenv("SECRET_KEY", "a_very_secret_key_for_local_dev")
-ALGORITHM = "HS26"
+# --- THIS IS THE FIX ---
+ALGORITHM = "HS256" # Corrected from "HS26"
+# ---------------------
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+# The tokenUrl must match the full path to your login endpoint
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
 async def authenticate_user(db: AsyncSession, email: str, password: str):

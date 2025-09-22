@@ -3,7 +3,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional, List
-from models import UserRole, DeviceStatus, PickupStatus
+import models
 
 # --- User Schemas ---
 class UserBase(BaseModel):
@@ -11,7 +11,7 @@ class UserBase(BaseModel):
     email: EmailStr
     phone: str
     address: str
-    role: UserRole
+    role: models.UserRole
 
 class UserCreate(UserBase):
     password: str
@@ -34,7 +34,7 @@ class Device(BaseModel):
     id: int
     device_id: str
     user_id: int
-    status: DeviceStatus
+    status: models.DeviceStatus
     class Config:
         from_attributes = True
 
@@ -60,7 +60,7 @@ class Pickup(BaseModel):
     id: int
     worker_id: int
     household_id: int
-    status: PickupStatus
+    status: models.PickupStatus
     date: datetime
     class Config:
         from_attributes = True
@@ -77,5 +77,5 @@ class Reward(BaseModel):
 # --- Analytics Schemas ---
 class AdminAnalytics(BaseModel):
     total_waste_collected: float
-    segregation_accuracy: float # As a percentage
+    segregation_accuracy: float
     active_households: int

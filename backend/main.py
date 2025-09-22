@@ -5,11 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 
-# Corrected: Changed relative imports to absolute
 from database import engine, Base
 from routers import auth, household, worker, admin, device
 
-# This lifespan event will run on startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logging.info("Application startup...")
@@ -33,12 +31,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include all the new routers with prefixes
+# --- This section fixes the documentation issue ---
 app.include_router(auth.router, prefix="/api", tags=["Authentication"])
 app.include_router(household.router, prefix="/api/household", tags=["Household"])
 app.include_router(worker.router, prefix="/api/worker", tags=["Worker"])
 app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 app.include_router(device.router, prefix="/api/device", tags=["IoT Device"])
+# ---------------------------------------------------
 
 @app.get("/", tags=["Health Check"])
 def read_root():
