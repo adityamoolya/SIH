@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from database import engine, Base
-from routers import auth, household, worker, admin, device
+from routers import auth, household, ml, worker, admin, device
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -38,7 +38,9 @@ app.include_router(worker.router, prefix="/api/worker", tags=["Worker"])
 app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 app.include_router(device.router, prefix="/api/device", tags=["IoT Device"])
 # ---------------------------------------------------
-
+app.include_router(ml.router, prefix="/api/ml", tags=["ml"])
 @app.get("/", tags=["Health Check"])
 def read_root():
     return {"message": "API is healthy"}
+
+
