@@ -1,6 +1,6 @@
 # Smart Waste Management System - Backend
 
-A comprehensive waste management system developed for **SIH 2025 Internal Round** prototype. This backend handles authentication, waste tracking, reward management, and ML-based waste classification.
+A  waste management system developed for **SIH 2025 Internal Round** prototype. This backend handles authentication, waste tracking, reward management, and ML-based waste classification.
 
 ## 🎯 Project Overview
 
@@ -263,22 +263,12 @@ Test password verification:
 python backend/test_password.py
 ```
 
-## 👥 Team
-
-- **Backend Development**: [Your Name]
-- **Frontend Development**: [Other Team Member]
-- **For**: Smart India Hackathon 2025 Internal Round
-
 ## 📝 Notes
 
 - Frontend is in a separate repository
 - This is a prototype for SIH 2025 internal evaluation
 - Point system: 1kg waste = 20 points
 - First available worker is auto-assigned to pickups
-
-## 📄 License
-
-This project was developed for SIH 2025 and is intended for educational/competition purposes.
 
 ## 🔗 API Documentation
 
